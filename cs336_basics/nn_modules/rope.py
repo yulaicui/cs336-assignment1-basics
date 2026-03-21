@@ -25,7 +25,7 @@ class RotaryPositionalEmbedding(torch.nn.Module):
     def forward(
         self, 
         x: Float[torch.Tensor, " ... sequence_length d_k"], 
-        token_positions: Float[torch.Tensor, " ... sequence_length"]
+        token_positions: Float[torch.Tensor, " ... sequence_length"] | None = None
     ) -> Float[torch.Tensor, " ... sequence_length d_k"]:
         """
         Run RoPE on an input tensor.
@@ -36,7 +36,9 @@ class RotaryPositionalEmbedding(torch.nn.Module):
         Returns:
             Input tensor with positional info after RoPE
         """
-        cos_slice, sin_slice = self._cos[token_positions], self._sin[token_positions]
+        cos_slice = self._cos[token_positions] if token_positions is not None else self._cos[: x.size(-2)]
+        sin_slice = self._sin[token_positions] if token_positions is not None else self._sin[: x.size(-2)]
+        # cos_slice, sin_slice = self._cos[token_positions], self._sin[token_positions]
 
         x1 = x[..., ::2]  # Even indices
         x2 = x[..., 1::2]  # Odd indices

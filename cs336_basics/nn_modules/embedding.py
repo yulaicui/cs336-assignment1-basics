@@ -1,12 +1,12 @@
 import torch
-from einops import rearrange
 from jaxtyping import Float
 
 class Embedding(torch.nn.Module):
     def __init__(self, vocab_size: int, embedding_dim: int, weights: Float[torch.Tensor, " vocab_size d_model"], device: torch.device | None = None, dtype: torch.dtype | None = None):
+        super().__init__()
         self.vocab_size: int = vocab_size # size of vocabulary
         self.embedding_dim: int = embedding_dim # dimension of embedding vectors
-        self.weights: Float[torch.Tensor, " vocab_size d_model"] = weights # embedding matrix
+        self.weights: Float[torch.Tensor, " vocab_size d_model"] = torch.nn.Parameter(weights) # embedding matrix
         self._device: torch.device | None = device # device to store parameters on
         self._dtype: torch.dtype | None = dtype # data type of parameters
     
