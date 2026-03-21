@@ -12,11 +12,12 @@ class SwiGLU(torch.nn.Module):
             device: torch.device | None = None, 
             dtype: torch.dtype | None = None
         ):
+        super().__init__()
         self.d_model: int = d_model
         self.d_ff: int = d_ff
-        self.w1_weight: Float[torch.Tensor, "d_ff d_model"] = w1_weight
-        self.w2_weight: Float[torch.Tensor, " d_model d_ff"] = w2_weight
-        self.w3_weight: Float[torch.Tensor, " d_ff d_model"] = w3_weight
+        self.w1_weight: Float[torch.Tensor, "d_ff d_model"] = torch.nn.Parameter(w1_weight)
+        self.w2_weight: Float[torch.Tensor, " d_model d_ff"] = torch.nn.Parameter(w2_weight)
+        self.w3_weight: Float[torch.Tensor, " d_ff d_model"] = torch.nn.Parameter(w3_weight)
         self._device: torch.device | None = device # device to store parameters on
         self._dtype: torch.dtype | None = dtype # data type of parameters
     

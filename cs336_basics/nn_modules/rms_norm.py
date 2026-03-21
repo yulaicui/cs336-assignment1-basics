@@ -3,8 +3,9 @@ from jaxtyping import Float
 
 class RMSNorm(torch.nn.Module):
     def __init__(self, d_model: int, weights: Float[torch.Tensor, " d_model"], eps: float = 1e-5, device: torch.device | None = None, dtype: torch.dtype | None = None):
+        super().__init__()
         self.d_model: int = d_model # hidden dimension of the model
-        self.weights: Float[torch.Tensor, " d_model"] = weights # RMS normalization layer weights
+        self.weights: Float[torch.Tensor, " d_model"] = torch.nn.Parameter(weights) # RMS normalization layer weights
         self._eps: float = eps # Epsilon value for numerical stability
         self._device: torch.device | None = device # device to store parameters on
         self._dtype: torch.dtype | None = dtype # data type of parameters
