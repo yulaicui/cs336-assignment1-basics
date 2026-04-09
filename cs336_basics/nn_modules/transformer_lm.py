@@ -22,10 +22,10 @@ class TransformerLM(torch.nn.Module):
         super().__init__()
 
         self._embedding: Embedding = Embedding(vocab_size, d_model, weights['token_embeddings.weight'])
-        self._transformer_blocks: list[TransformerBlock] = [
+        self._transformer_blocks: torch.nn.ModuleList = torch.nn.ModuleList([
             TransformerBlock(d_model, num_heads, d_ff, context_length, rope_theta, self._get_weights_for_transformer_block(weights, i))
             for i in range(num_layers)
-        ]
+        ])
         self._ln_final: RMSNorm = RMSNorm(d_model, weights['ln_final.weight'])
         self._output: Linear = Linear(d_model, vocab_size, weights['lm_head.weight'])
     
