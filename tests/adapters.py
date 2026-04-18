@@ -423,20 +423,6 @@ def run_rmsnorm(
     return rms_norm.forward(in_features)
 
 
-def run_silu(in_features: Float[Tensor, " ..."]) -> Float[Tensor, " ..."]:
-    """Given a tensor of inputs, return the output of applying SiLU
-    to each element.
-
-    Args:
-        in_features(Float[Tensor, "..."]): Input features to run SiLU on. Shape is arbitrary.
-
-    Returns:
-        Float[Tensor,"..."]: of with the same shape as `in_features` with the output of applying
-        SiLU to each element.
-    """
-    raise NotImplementedError
-
-
 def run_get_batch(
     dataset: npt.NDArray, batch_size: int, context_length: int, device: str
 ) -> tuple[torch.Tensor, torch.Tensor]:

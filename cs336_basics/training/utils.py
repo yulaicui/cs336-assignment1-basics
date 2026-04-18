@@ -38,12 +38,12 @@ def clip_gradient(parameters: Iterable[torch.nn.Parameter], max_l2_norm: float) 
 
 
 def load_data(
-    dataset: npt.NDArray, batch_size: int, context_length: int, device_name: str
+    dataset: npt.NDArray, batch_size: int, context_length: int, device_name: str, random_seed: int = 42
 ) -> tuple[torch.Tensor, torch.Tensor]:
     device: torch.device = torch.device(device_name)
 
     # randomly sample B starting indices
-    rng = np.random.default_rng()
+    rng = np.random.default_rng(seed=random_seed)
     starting_indices: list[int] = list(rng.choice(a=dataset.shape[-1] - context_length, size=batch_size, replace=False))
 
     x_ranges = np.array([list(range(i, i+context_length)) for i in starting_indices])
